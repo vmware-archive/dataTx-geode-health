@@ -1,5 +1,5 @@
 # dataTx-gART
-GemFire/Apache Geode Assessment Reporting Tool (gART)
+GemFire/Apache Geode Health Tool 
 
 This projects provides the following
 

@@ -1,6 +1,6 @@
 # Overview
 
-API GemFire Assessment Reporting Tool (GART) performance monitoring
+API Apache Geode Health Tool performance monitoring
 checks against GemFire cluster using the following 
 
 
@@ -33,7 +33,7 @@ checks against GemFire cluster using the following
 	 
 # Execution
 
-The GemFire assessment  report API is packaged as a uber Jar.
+The Geode assessment  report API is packaged as a uber Jar.
 It can be run directly by the following:
 
 
@@ -43,7 +43,7 @@ It can be run directly by the following:
 
 ### Email
 
-GART can be configured to send email notification for monitoring alerts.
+This tools can be configured to send email notification for monitoring alerts.
 
 Using the following environment variables
 
@@ -54,7 +54,7 @@ Using the following environment variables
 | EMAIL_HOST 		| SMTP host        	|
 | EMAIL_PORT 		| SMTP port (default 25)	  |
 | EMAIL_SSL_ENABLED | true or false (defaulttrue)|
-|EMAIL_SUBJECT | Default GEMFIRE MONITORING NOTIFICATIONS|
+|EMAIL_SUBJECT | Default GEODE MONITORING NOTIFICATIONS|
 | JMX_USER | GemFire JMX user password        |
 | JMX_PASSWORD 	| Encrypted JMX user password (see cryption the below)    |
 

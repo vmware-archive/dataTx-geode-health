@@ -32,8 +32,8 @@ public class GeodeCucumberQA
 	{
     	if(args == null || args.length <  1)
     	{
-    		System.err.println("Usage: java -jar gemfire.gart.api.<version> [featureFile|dir] [loopTrueFalse loopDelay]");
-    		System.err.println("Example: java -jar gemfire.gart.api-0.0.1-SNAPSHOT.jar gemfire.jmx.monitoring.feature true 10800");
+    		System.err.println("Usage: java -jar ...api.<version> [featureFile|dir] [loopTrueFalse loopDelay]");
+    		System.err.println("Example: java -jar ...api-0.0.1-SNAPSHOT.jar gemfire.jmx.monitoring.feature true 10800");
     		
     		System.exit(-1);
     	}
