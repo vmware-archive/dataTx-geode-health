@@ -1,0 +1,54 @@
+<html>
+
+    <h1>Example Report</h1>
+    <p>
+       <div>
+        This chart is very importance Max
+       </div>
+       <div>
+            ${jvmMaxMemoryChart}
+       </div>
+     </p>
+
+    <p>
+       <div>
+        This chart is also very importance Average
+       </div>
+       <div>
+            ${jvmAvgMemoryChart}
+       </div>
+     </p>
+
+    <p>
+       <div>
+        This will hurt you Collection Time
+       </div>
+       <div>
+            ${parNewCollectionTimeChart}
+       </div>
+     </p>
+    <p>
+       <div>
+        This will also hurt you Collections
+       </div>
+       <div>
+            ${parNewCollectionsChart}
+       </div>
+     </p>
+
+     <p>
+        <div>CPU usage</div>
+        ${cpuActive}
+     </p>
+
+        <p>
+             <div>Delay Duration</div>
+             ${statSamplerDelayDuration}
+          </p>
+
+    assertTrue(report.contains("Average"));
+		assertTrue(report.contains("Max"));
+		assertTrue(report.contains("Collections"));
+		assertTrue(report.contains("Collection Time"));
+
+</html>

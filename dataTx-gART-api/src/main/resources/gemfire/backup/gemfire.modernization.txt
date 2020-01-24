@@ -1,0 +1,72 @@
+Feature: Modernization
+	Scenario: GemFire version
+	Given GemFire Distribute System
+	Then Assert version 8.0 or higher
+	
+#Feature: Security Vulnerabilities
+	
+	Scenario: GemFire security
+	Given GemFire Distribute System Member
+	Then Assert not empty property security-client-accessor
+	And Assert not empty property security-client-accessor-pp
+	And Assert not empty property security-client-auth-init
+	And Assert not empty property security-client-authenticator
+	And Assert not empty property security-client-dhalgo
+	And Assert not empty property security-log-level
+	And Assert not empty property security-peer-auth-init
+	And Assert not empty property security-peer-authenticator
+	And Assert not empty property security-peer-verifymember-timeout
+
+#Feature: File System Management
+
+	Scenario: statistic archive files
+	When statistic-archive-file is not empty
+	Then archive-disk-space-limit is > 0
+	
+	Scenario:log files
+	When log-level != none
+	Then log-disk-space-limit > 0
+	And log-file-size-limit > 0
+	
+	Scenario: Disk store
+	When Disk Store Used
+	Then Assert Auto Compact = false
+	And Assert Force Compaction Allowed = true
+	And Assert Disk Usage Critical Percentage < 95
+	And TotalBackupCompleted > 1
+	
+	
+Feature: Performance
+  
+   Scenario: have time statistics enabled
+    Given Member enable-time-statistics
+    Then Set enable-time-statistics=false 
+ 
+   Scenario: System Resource Usage
+   Given Member
+   Then FreeMemory >= 50% of Maximum Heap Size
+
+    
+    Scenario:  CPU allocation per number of cache server nodes
+    Given a Cache Server 
+    Then Assert Machine #CPU > 4
+
+ Feature: Data High Availability
+    Scenario:  Set the redundancy zone
+    Given a Cache Server 
+    Then Assert Member Property redundancy-zone not empty
+
+  	Scenario:  Persist Data To Disk
+    Given a Region
+    Then Assert Region Data Policy is persistent
+    
+    Scenario: Use Cache Loader With Eviction
+    Given a Region
+	When Eviction Used
+	Then Assert Cache Has Cache Loader
+ 	
+ 	Scenario: Number of Buckets Without Redundancy
+ 	Given a Partition Region
+ 	Then Region property numberOfBucketsWithRedundancy = 1
+ 	
+ 	

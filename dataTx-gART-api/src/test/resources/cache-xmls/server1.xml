@@ -1,0 +1,292 @@
+<?xml version="1.0"?>
+<cache>
+    <gateway-sender id="gw_sender_16_1" parallel="true" remote-distributed-system-id="6" dispatcher-threads="10" order-policy="key"
+         disk-synchronous="true" maximum-queue-memory="10"  enable-persistence="true" disk-store-name="gw-atendimento-ds" 
+         batch-size="1000" batch-time-interval="2000" socket-buffer-size="124928" enable-batch-conflation="true" />
+
+    <gateway-sender id="gw_sender_16_2" parallel="true" remote-distributed-system-id="6" dispatcher-threads="10" order-policy="key"
+         disk-synchronous="true" maximum-queue-memory="10"  enable-persistence="true" disk-store-name="gw-billingprofile-ds" 
+         batch-size="1000" batch-time-interval="2000" socket-buffer-size="124928" enable-batch-conflation="true" />
+
+    <gateway-sender id="gw_sender_16_3" parallel="true" remote-distributed-system-id="6" dispatcher-threads="10" order-policy="key"
+         disk-synchronous="true" maximum-queue-memory="10"  enable-persistence="true" disk-store-name="gw-contract-ds" 
+         batch-size="1000" batch-time-interval="2000" socket-buffer-size="124928" enable-batch-conflation="true" />
+
+    <gateway-sender id="gw_sender_16_4" parallel="true" remote-distributed-system-id="6" dispatcher-threads="10" order-policy="key"
+         disk-synchronous="true" maximum-queue-memory="10"  enable-persistence="true" disk-store-name="gw-customer-ds" 
+         batch-size="1000" batch-time-interval="2000" socket-buffer-size="124928" enable-batch-conflation="true" />
+    
+    <gateway-sender id="gw_sender_16_5" parallel="false" remote-distributed-system-id="6" dispatcher-threads="10" order-policy="key"
+         disk-synchronous="true" maximum-queue-memory="10"  enable-persistence="true" disk-store-name="gw-general-ds" 
+         batch-size="1000" batch-time-interval="2000" socket-buffer-size="124928" enable-batch-conflation="true" />
+
+    <gateway-sender id="gw_sdr_pll_internationalroaming_16_6" parallel="false" remote-distributed-system-id="6" dispatcher-threads="10" order-policy="key"
+         disk-synchronous="true" maximum-queue-memory="10"  enable-persistence="true" disk-store-name="gw-internationalroaming-ds" 
+         batch-size="1000" batch-time-interval="2000" socket-buffer-size="124928" enable-batch-conflation="true" />
+
+
+
+
+    <gateway-receiver start-port="10000" end-port="10050" socket-buffer-size="124928" />
+
+    <cache-server socket-buffer-size="" />
+
+    <!-- Gateway -->
+    <disk-store name="gw-atendimento-ds" auto-compact="false" disk-usage-critical-percentage="">
+            <disk-dirs>
+                    <disk-dir>/gemfire/pivotal/diskstores/ds016/rdrlnxm27-server1/gw-atendimento</disk-dir>
+            </disk-dirs>
+    </disk-store>
+
+    <disk-store name="gw-billingprofile-ds"  auto-compact="false" allow-force-compaction="false">
+            <disk-dirs>
+                    <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/gw-billingprofile</disk-dir>
+            </disk-dirs>
+    </disk-store>
+
+    <disk-store name="gw-contract-ds"  auto-compact="false">
+            <disk-dirs>
+                    <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/gw-contract</disk-dir>
+            </disk-dirs>
+    </disk-store>
+
+    <disk-store name="gw-customer-ds"  auto-compact="false">
+            <disk-dirs>
+                    <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/gw-customer</disk-dir>
+            </disk-dirs>
+    </disk-store>
+
+    <disk-store name="gw-general-ds"  auto-compact="false">
+            <disk-dirs>
+                    <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/gw-general</disk-dir>
+            </disk-dirs>
+    </disk-store>
+    
+     <disk-store name="gw-experience-ds"  auto-compact="false" allow-force-compaction="true">
+            <disk-dirs>
+                    <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/gw-experience</disk-dir>
+            </disk-dirs>
+    </disk-store>
+    
+     <disk-store name="gw-group-ds"  auto-compact="false" allow-force-compaction="true">
+            <disk-dirs>
+                    <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/gw-group</disk-dir>
+            </disk-dirs>
+    </disk-store>
+     <disk-store name="gw-product-ds"  auto-compact="false" allow-force-compaction="true">
+            <disk-dirs>
+                    <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/gw-product</disk-dir>
+            </disk-dirs>
+    </disk-store>    
+     <disk-store name="gw-cardinalitygroup-ds"  auto-compact="false" allow-force-compaction="true">
+            <disk-dirs>
+                    <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/gw-cardinalitygroup</disk-dir>
+            </disk-dirs>
+    </disk-store>       
+     <disk-store name="gw-internationalroaming-ds"  auto-compact="false" allow-force-compaction="true">
+            <disk-dirs>
+                    <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/gw-internationalroaming</disk-dir>
+            </disk-dirs>
+    </disk-store>           
+    <!-- Gateway End -->
+
+    <disk-store name="atendimento-ds"  auto-compact="false">
+        <disk-dirs>
+            <disk-dir>/gemfire/pivotal/diskstores/ds016/rdrlnxm27-server1/atendimento</disk-dir>
+        </disk-dirs>
+    </disk-store>
+    
+    <disk-store name="pdxMetaData" max-oplog-size="200"  auto-compact="false">
+        <disk-dirs>
+            <disk-dir>/gemfire/pivotal/diskstores/ds016/rdrlnxm27-server1/pdx</disk-dir>
+        </disk-dirs>
+    </disk-store>
+    
+    <disk-store name="experience-ds"  auto-compact="false">
+        <disk-dirs>
+            <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/experience</disk-dir>
+        </disk-dirs>
+    </disk-store>
+
+    <!-- Coiote Begin -->
+    <disk-store name="internationalgroup-ds"  auto-compact="false">
+        <disk-dirs>
+            <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/internationalgroup</disk-dir>
+        </disk-dirs>
+    </disk-store>
+    
+    <disk-store name="internationalroaming-ds"  auto-compact="false">
+        <disk-dirs>
+            <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/internationalroaming</disk-dir>
+        </disk-dirs>
+    </disk-store>
+    <!-- Coiote End -->
+
+
+    <!-- Projeto Multicanalidade Profilling -->
+    <disk-store name="contract-ds"  auto-compact="false">
+        <disk-dirs>
+            <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/contract</disk-dir>
+        </disk-dirs>
+    </disk-store>
+    
+    <disk-store name="customer-ds"  auto-compact="false">
+        <disk-dirs>
+            <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/customer</disk-dir>
+        </disk-dirs>
+    </disk-store>
+    
+    <disk-store name="group-ds"  auto-compact="false">
+        <disk-dirs>
+            <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/group</disk-dir>
+        </disk-dirs>
+    </disk-store>
+    
+    <disk-store name="billingprofile-ds"  auto-compact="false">
+        <disk-dirs>
+            <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/billingprofile</disk-dir>
+        </disk-dirs>
+    </disk-store>
+    
+    <disk-store name="lkupplans-ds"  auto-compact="false">
+        <disk-dirs>
+            <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/lkupplans</disk-dir>
+        </disk-dirs>
+    </disk-store>
+    
+    <disk-store name="lkupservices-ds"  auto-compact="false">
+        <disk-dirs>
+            <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/lkupservices</disk-dir>
+        </disk-dirs>
+    </disk-store>
+    
+    <disk-store name="lkupstatus-ds"  auto-compact="false">
+        <disk-dirs>
+            <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/lkupstatus</disk-dir>
+        </disk-dirs>
+    </disk-store>
+    
+    <disk-store name="lkupbillingdata-ds"  auto-compact="false">
+        <disk-dirs>
+            <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/lkupbillingdata</disk-dir>
+        </disk-dirs>
+    </disk-store>
+    <disk-store name="lkupbillingdata-ds"  auto-compact="false">
+        <disk-dirs>
+            <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/lkupbillingdata</disk-dir>
+        </disk-dirs>
+    </disk-store>
+    <!-- Projeto Multicanalidade Profilling END -->
+
+    <!-- Projeto Catalogo Comercial Diskstores -->
+    <disk-store name="cardinalitygroup-ds"  auto-compact="false">
+        <disk-dirs>
+            <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/cardinalitygroup</disk-dir>
+        </disk-dirs>
+    </disk-store>
+
+    <disk-store name="product-ds" allow-force-compaction="false">
+        <disk-dirs>
+            <disk-dir>/gemfire/pivotal/diskstores/ds016/defaultgrp/product</disk-dir>
+        </disk-dirs>
+    </disk-store>
+
+
+    <!-- Projeto Catalogo Comercial Diskstores END -->
+
+    <!-- PDX -->
+    <pdx read-serialized="false" persistent="true" disk-store-name="pdxMetaData">
+        <pdx-serializer>
+            <class-name>
+                com.gemstone.gemfire.pdx.ReflectionBasedAutoSerializer
+            </class-name>
+            <parameter name="classes">
+                <string>br.com.tim.timgfg.multi.domain.Atendimento</string>
+            </parameter>
+        </pdx-serializer>
+    </pdx>
+
+    <region name="Atendimento">
+        <region-attributes refid="PARTITION_REDUNDANT_PERSISTENT" disk-store-name="atendimento-ds" disk-synchronous="false" statistics-enabled="true" gateway-sender-ids="gw_sender_16_1">
+            <entry-time-to-live>
+                <expiration-attributes timeout="2592000" action="destroy" />
+            </entry-time-to-live>
+            <partition-attributes redundant-copies="1" />
+            <eviction-attributes>
+                <lru-heap-percentage action="overflow-to-disk" />
+            </eviction-attributes>
+        </region-attributes>
+        <index name="docNumberHashIndex" from-clause="/Atendimento a" expression="a.documentNumber" type="hash" />
+        <index name="msisdnHashIndex" from-clause="/Atendimento a" expression="a.msisdn" type="hash" />
+    </region>
+
+    <region name="Experience">
+        <region-attributes refid="PARTITION_REDUNDANT_PERSISTENT" disk-store-name="experience-ds" disk-synchronous="false" gateway-sender-ids="gw_sender_16_5">
+            <partition-attributes redundant-copies="1" />
+        </region-attributes>
+    </region>
+
+    <!-- Coiote Begin -->
+    <region name="InternationalGroup">
+        <region-attributes scope="distributed-ack" data-policy="persistent-replicate" disk-store-name="internationalgroup-ds" disk-synchronous="false" gateway-sender-ids="gw_sender_16_5" />
+    </region>
+
+    <region name="InternationalRoaming">
+        <region-attributes data-policy="persistent-partition" disk-store-name="internationalroaming-ds" disk-synchronous="false" gateway-sender-ids="gw_sdr_pll_internationalroaming_16_6">
+            <partition-attributes redundant-copies="1" />
+        </region-attributes>
+    </region>
+    <!-- Coiote End -->
+
+    <!-- Projeto Multicanalidade Profilling -->
+    <region name="Contract">
+        <region-attributes refid="PARTITION_REDUNDANT_PERSISTENT" disk-store-name="contract-ds" disk-synchronous="false" gateway-sender-ids="gw_sender_16_3" />
+        <index name="ContractDocumentIndex" from-clause="/Contract a" expression="a.document" type="hash"/>
+    </region>
+
+    <region name="Customer">
+        <region-attributes refid="PARTITION_REDUNDANT_PERSISTENT" disk-store-name="customer-ds" disk-synchronous="false" gateway-sender-ids="gw_sender_16_4" statistics-enabled="false"  />
+    </region>
+    
+    <region name="Group">
+        <region-attributes refid="PARTITION_REDUNDANT_PERSISTENT" disk-store-name="group-ds" disk-synchronous="false" gateway-sender-ids="gw_sender_16_5" />
+    </region>
+    
+    <region name="BillingProfile">
+        <region-attributes refid="PARTITION_REDUNDANT_PERSISTENT" disk-store-name="billingprofile-ds" disk-synchronous="false" gateway-sender-ids="gw_sender_16_2" />
+    </region>
+    
+    <region name="LkupPlans">
+        <region-attributes refid="REPLICATE_PERSISTENT" disk-store-name="lkupplans-ds" disk-synchronous="false" gateway-sender-ids="gw_sender_16_5" />
+    </region>
+    
+    <region name="LkupServices">
+        <region-attributes refid="REPLICATE_PERSISTENT" disk-store-name="lkupservices-ds" disk-synchronous="false" gateway-sender-ids="gw_sender_16_5" />
+    </region>
+    
+    <region name="LkupStatus">
+        <region-attributes refid="REPLICATE_PERSISTENT" disk-store-name="lkupstatus-ds" disk-synchronous="false" gateway-sender-ids="gw_sender_16_5" />
+    </region>
+    
+    <region name="LkupBillingData">
+        <region-attributes refid="REPLICATE_PERSISTENT" disk-store-name="lkupbillingdata-ds" disk-synchronous="false" gateway-sender-ids="gw_sender_16_5" />
+    </region>
+    <!-- Projeto Multicanalidade Profilling END -->
+
+    <!-- Projeto Catalogo Comercial Regiões -->
+    <region name="Product">
+        <region-attributes refid="PARTITION_REDUNDANT_PERSISTENT" disk-store-name="product-ds" disk-synchronous="false" gateway-sender-ids="gw_sender_16_5">
+            <partition-attributes redundant-copies="1" />
+        </region-attributes>
+    </region>
+
+    <region name="CardinalityGroup">
+        <region-attributes refid="PARTITION_REDUNDANT_PERSISTENT" disk-store-name="cardinalitygroup-ds" disk-synchronous="false" gateway-sender-ids="gw_sender_16_5">
+            <partition-attributes redundant-copies="1" />
+        </region-attributes>
+    </region>
+    <!-- Projeto Catalogo Comercial Regiões END -->
+
+    <resource-manager critical-heap-percentage="95" eviction-heap-percentage="45" />
+</cache>
+
