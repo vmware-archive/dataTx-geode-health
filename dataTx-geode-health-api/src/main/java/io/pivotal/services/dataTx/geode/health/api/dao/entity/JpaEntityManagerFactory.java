@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.H2Dialect;
+import org.hibernate.dialect.PostgreSQL9Dialect;
 import org.hibernate.dialect.PostgresPlusDialect;
 import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl;
 import org.hibernate.jpa.boot.internal.PersistenceUnitInfoDescriptor;
@@ -90,7 +91,10 @@ public class JpaEntityManagerFactory
         properties.put("hibernate.dialect", dialectClass.getName());
         properties.put("hibernate.id.new_generator_mappings", false);
         properties.put("hibernate.hbm2ddl.auto","create");
-        properties.put("hbm2ddl.auto","create");
+        properties.put("hibernate.temp.use_jdbc_metadata_defaults","false");
+        properties.put("hbm2ddl.auto","update");
+        properties.put("hibernate.show_sql","true");
+        properties.put("hibernate.format_sql","true");
         //properties.put("javax.persistence.schema-generation.database.action","create");
 
         properties.put("hibernate.connection.datasource", getDataSource());
@@ -124,7 +128,7 @@ public class JpaEntityManagerFactory
             switch(this.statDbType)
             {
                 case PostgresDB:
-                    this.dialectClass = PostgresPlusDialect.class;
+                    this.dialectClass = PostgreSQL9Dialect.class;
                     this.jdbcDriverClassName = "org.postgresql.Driver";
                     break;
                 case H2:

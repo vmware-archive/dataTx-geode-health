@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 
 public class IoWaitStatVisitorTest
 {
-    private File ioWaitFileStats = Paths.get(Config.getProperty("ioWaitFileStats")).toFile();
+    private File ioWaitFileStats = Paths.get(Config.getProperty("ioWaitFileStats","secret/")).toFile();
 
     @Test
     public void test_ioWait() throws Exception {

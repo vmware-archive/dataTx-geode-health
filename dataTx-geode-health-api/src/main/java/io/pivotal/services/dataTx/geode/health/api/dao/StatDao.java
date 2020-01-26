@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -13,9 +15,9 @@ import java.util.Optional;
  */
 @Builder
 @Setter
-public class StatDao
+public class StatDao implements Closeable
 {
-    private final  EntityManager entityManager;
+    private  EntityManager entityManager;
 
     public StatDao(EntityManager entityManager)
     {
@@ -53,5 +55,13 @@ public class StatDao
         this.entityManager.remove(stat);
         this.entityManager.flush();
         transaction.commit();
+    }
+
+    @Override
+    public void close()
+    throws IOException
+    {
+        if(this.entityManager != null)
+            this.entityManager.close();
     }
 }

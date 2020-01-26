@@ -1,7 +1,10 @@
 package io.pivotal.service.dataTx.geode.health
 
+import io.pivotal.services.dataTx.geode.health.api.dao.StatDao
+import io.pivotal.services.dataTx.geode.health.api.dao.entity.JpaEntityManagerFactory
 import io.pivotal.services.dataTx.geode.health.api.dao.entity.StatDbType
 import io.pivotal.services.dataTx.geode.health.api.reporting.HtmlStatsGeodeReporter
+import io.pivotal.services.dataTx.geode.health.api.reporting.database.StatsToDatabaseVisitor
 import io.pivotal.services.dataTx.geode.health.api.reporting.domain.ReportingSetting
 import io.pivotal.services.dataTx.geode.office.*
 import io.pivotal.services.dataTx.geode.operations.stats.GfStatsReader
@@ -10,8 +13,8 @@ import nyla.solutions.core.data.clock.Day
 import nyla.solutions.core.io.IO
 import nyla.solutions.core.util.Text
 import nyla.solutions.office.chart.Chart
-import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellComponent
+import org.springframework.shell.standard.ShellMethod
 import org.springframework.shell.standard.ShellOption
 import java.io.File
 import java.nio.file.Paths
@@ -177,10 +180,34 @@ class ReportShell
 
     }//-------------------------------------------
     @ShellMethod("Saves stats to database")
-    fun dbSync(statsFileOrDirPath: String, jdbcDbType: StatDbType, jdbcUrl: String, jdbcUsername: String, jdbcPasword: String) {
+    fun dbSync(statsFileOrDirPath: String, jdbcDbType: StatDbType,
+               jdbcUrl: String, jdbcUsername: String, jdbcPasword: String) {
 
 
-        //JpaEntityManagerFactory.builder().databaseType(Postr)
-    }
+        var factory = JpaEntityManagerFactory.builder().statDbType(jdbcDbType)
+                .jdbcUrl(jdbcUrl)
+                .jdbcUsername(jdbcUsername)
+                .jdbcPassword(jdbcPasword)
+                .build();
+
+        var dao = StatDao(factory.entityManager);
+
+        var file = Paths.get(statsFileOrDirPath).toFile();
+        var visitor : StatsToDatabaseVisitor = StatsToDatabaseVisitor(dao);
+        dao.use {
+
+            if (file.isDirectory()) { //Process for all files
+                val statsFiles: Set<File> = IO.listFileRecursive(file, "*.gfs")
+
+                for (statFile in statsFiles) {
+                    val reader = GfStatsReader(statFile.absolutePath)
+                    reader.accept(visitor)
+                }
+            } else {
+                val reader = GfStatsReader(file.getAbsolutePath())
+                reader.accept(visitor)
+            }
+        }
+    }//-------------------------------------------
 
 }

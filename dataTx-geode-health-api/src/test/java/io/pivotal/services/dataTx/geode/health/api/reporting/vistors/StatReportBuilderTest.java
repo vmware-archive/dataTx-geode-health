@@ -22,7 +22,7 @@ public class StatReportBuilderTest
         assertEquals("TYPE",v.getFilterTypeName());
         assertEquals("statName",v.getFilterStatName());
         assertEquals(new Day("5/3/2322"),v.getDayFilter());
-        assertEquals(23.23,v.getThreshold(),0);
+        assertEquals(23.23,v.getThreshold());
 
 
     }
