@@ -1,5 +1,12 @@
-# dataTx-gART
-GemFire/Apache Geode Health Tool 
+# Apache Geode Health
+
+This project contains tools to assess and 
+manage the health of Apache Geode based deployments.
+
+These tools have by development and are managed
+by the Pivotal's (Now Part of VMware) DataTx (Tx=Transformation)
+ group.
+ 
 
 This projects provides the following
 
@@ -13,11 +20,10 @@ This projects provides the following
 
 
 
-
 | Project               | Overview |
 | --------------------- | ----------   |
-| [dataTx-geode-health-shell-app](https://github.com/pivotalservices/dataTx-gART/tree/develop/dataTx-gART-shell-app) |Report included Key Data Point graphs. Exposes shell commands to generate specific charts/reports based on statistic files |
-| [dataTx-geode-health-api](https://github.com/pivotalservices/dataTx-gART/tree/develop/dataTx-gART-api)        |API GemFire Assessment Reporting Tool (GART) performance monitoring checks against GemFire cluster using the following |
+| [dataTx-geode-health-shell-app](https://github.com/Pivotal-Data-Engineering/dataTx-geode-health/tree/master/dataTx-geode-health-shell-app) |Report included Key Data Point graphs. Exposes shell commands to generate specific charts/reports based on statistic files |
+| [dataTx-geode-health-api](https://github.com/Pivotal-Data-Engineering/dataTx-geode-health/tree/master/dataTx-geode-health-api)        |API GemFire Assessment Reporting Tool (GART) performance monitoring checks against GemFire cluster using the following |
 
 
 
