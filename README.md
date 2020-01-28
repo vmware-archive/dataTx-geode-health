@@ -1,29 +1,17 @@
 # Apache Geode Health
 
 This project contains tools to assess and 
-manage the health of Apache Geode based deployments.
+manage the health of [Apache Geode](http://geode.apache.org/) based deployments.
 
 These tools have by development and are managed
-by the Pivotal's (Now Part of VMware) DataTx (Tx=Transformation)
+by the [Pivotal](https://pivotal.io)'s (Now Part of VMware) DataTx (Tx=Transformation)
  group.
- 
-
-This projects provides the following
-
-- **Automate analysis tool**
-- Identify misconfigurations
-- Determine deviations from best practices
-- Analyze potential architecture issues
-- Customizable configuration rules scoring
-- Deployment/Performance Readiness
-- **Produce an assessment report with findings and recommendations**
-
 
 
 | Project               | Overview |
 | --------------------- | ----------   |
-| [dataTx-geode-health-shell-app](https://github.com/Pivotal-Data-Engineering/dataTx-geode-health/tree/master/dataTx-geode-health-shell-app) |Report included Key Data Point graphs. Exposes shell commands to generate specific charts/reports based on statistic files |
-| [dataTx-geode-health-api](https://github.com/Pivotal-Data-Engineering/dataTx-geode-health/tree/master/dataTx-geode-health-api)        |API GemFire Assessment Reporting Tool (GART) performance monitoring checks against GemFire cluster using the following |
+| [dataTx-geode-health-shell-app](https://github.com/Pivotal-Data-Engineering/dataTx-geode-health/tree/master/dataTx-geode-health-shell-app) | Exposes health check tools through [Spring Shell](https://projects.spring.io/spring-shell/) commands such as analyzing [Apache Geode Statistic files](https://geode.apache.org/docs/guide/12/managing/statistics/setting_up_statistics.html). |
+| [dataTx-geode-health-api](https://github.com/Pivotal-Data-Engineering/dataTx-geode-health/tree/master/dataTx-geode-health-api)        | Backend support API(s) |
 
 
 
