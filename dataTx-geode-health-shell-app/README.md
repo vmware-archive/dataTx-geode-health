@@ -1,12 +1,20 @@
-# dataTx-gART
+# Apache Geode Health Shell App
+
+This spring shell based application provides
+utility to assist with the assessment of Apache Geode
+based cluster deployments.
+
 
  Report included Key Data Point graphs
  Exposes shell commands to generate specific charts/reports based on statistic files
 
-
+## Start Up
 Starting the app shell
 
-        java -jar target/dataTx-gART-shell-app-1.0.0.jar
+        java -jar target/dataTx-gART-shell-app-<version>.jar
+
+
+## User guide
 
 Example usages
 
