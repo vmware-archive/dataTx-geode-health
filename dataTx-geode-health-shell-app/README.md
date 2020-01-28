@@ -27,9 +27,9 @@ Example usages
         shell:>help
         …
 
-AVAILABLE COMMANDS
+### AVAILABLE COMMANDS
 
-Built-In Commands
+**Built-In Commands**
 
 Command | Notes
 -------- | ----------------
@@ -39,7 +39,7 @@ Command | Notes
  script     |  Read and execute commands from a file.
  stacktrace | Display the full stacktrace of the last error.
 
-Geode Health Commands
+**Geode Health Commands**
 
 Command             | Notes
 ------------------- | ----------------
