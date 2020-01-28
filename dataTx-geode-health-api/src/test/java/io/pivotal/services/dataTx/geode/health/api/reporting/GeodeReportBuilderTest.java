@@ -1,14 +1,14 @@
 package io.pivotal.services.dataTx.geode.health.api.reporting;
 
-import static org.junit.Assert.*;
-
-import java.io.File;
-import java.nio.file.Paths;
-
 import io.pivotal.services.dataTx.geode.health.api.reporting.domain.ReportingSetting;
 import nyla.solutions.core.data.clock.Day;
 import nyla.solutions.core.io.IO;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.nio.file.Paths;
+
+import static org.junit.Assert.*;
 
 /**
  * Testing for the GeodeReportBuilder class
@@ -71,7 +71,7 @@ public class GeodeReportBuilderTest
 		String template = IO.readFile("src/test/resources/junit-template/user_report.txt");
 
 		Day day = new Day("05/20/2019");
-		File file = new File("secret/");
+		File file = new File("src/test/resources/stats/datanode_MacBook-Pro-5.gfs");
 		GeodeReportBuilder b = new GeodeReportBuilder(file,
 				Paths.get("target/reporting").toFile()
 				,template);
@@ -100,7 +100,7 @@ public class GeodeReportBuilderTest
 		String template = IO.readFile("src/test/resources/junit-template/user_report.txt");
 
 		Day day = new Day("05/17/2019");
-		File file = new File("secret/");
+		File file = new File("src/test/resources/stats/datanode_MacBook-Pro-5.gfs");
 		GeodeReportBuilder b = new GeodeReportBuilder(file,
 				Paths.get("target/reporting").toFile()
 				,template);

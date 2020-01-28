@@ -123,8 +123,20 @@ public class StatDaoTest
     }
 
     @Test
-    @EnabledIfSystemProperty(named = "testMode", matches = "INT")
-    public void integration_test()
+    @EnabledIfSystemProperty(named = "testMode", matches = "INT_Mysql")
+    public void test_mysql_connections()
+    {
+        verify_db_integration_test(
+                Config.getProperty("jdbcUrl.MYSQL"),
+                Config.getProperty("jdbcUsername.MYSQL"),
+                Config.getProperty("jdbcPassword.MYSQL"),
+                StatDbType.MySQL
+        );
+
+    }//-------------------------------------------
+    @Test
+    @EnabledIfSystemProperty(named = "testMode", matches = "INT_Postgres")
+    public void integration_test_postgresdb()
     {
 
         String jdbcUrl = Config.getProperty("jdbcUrl");
@@ -166,7 +178,6 @@ public class StatDaoTest
 
 
     }
-
     private JpaEntityManagerFactory getJpaEntityManagerFactory(String jdbcUrl, String jdbcUsername,
                                                                String jdbcPassword,
                                                                StatDbType statDbType)
@@ -181,4 +192,46 @@ public class StatDaoTest
                 new Class[]{StatEntity.class});
         return builder.build();
     }
+
+    private void verify_db_integration_test(
+            String jdbcUrl,
+            String jdbcUsername,
+            String jdbcPassword,
+            StatDbType statDbType)
+    {
+
+        JpaEntityManagerFactory factory = getJpaEntityManagerFactory(
+                jdbcUrl,
+                jdbcUsername,
+                jdbcPassword,
+                statDbType);
+
+        assertNotNull(factory.getEntityClasses());
+        EntityManager em = factory.getEntityManager();
+
+        StatDao dao = StatDao.builder()
+                .entityManager(em)
+                .build();
+
+        StatEntity expected = new StatEntity();
+        expected.setFilterTypeName("expected");
+        expected.setLabel(faker.bothify("????label"));
+        expected.setMachine(faker.company().name());
+        expected.setStatName(faker.bothify("???"));
+        expected.setStatTimestamp(LocalDateTime.now());
+        expected.setStatValue(faker.number().randomDouble(3,1,555));
+
+        expected = dao.save(expected);
+
+        assertTrue( expected.getId() > 0,"id > 0");
+
+        StatEntity actual = dao.findStatById(expected.getId()).get();
+        assertEquals(expected,actual);
+
+
+        //insert another
+        expected.setId(23);
+        dao.save(expected);
+
+    }//-------------------------------------------
 }

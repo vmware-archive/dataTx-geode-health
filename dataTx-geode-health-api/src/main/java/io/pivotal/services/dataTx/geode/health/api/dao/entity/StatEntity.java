@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
+ * Statistics entity
  * @author Gregory Green
  */
 @Entity

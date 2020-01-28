@@ -5,6 +5,7 @@ import nyla.solutions.core.data.clock.Day;
 import nyla.solutions.core.io.IO;
 import nyla.solutions.core.util.Config;
 import nyla.solutions.office.chart.Chart;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -15,6 +16,7 @@ public class IoWaitStatVisitorTest
     private File ioWaitFileStats = Paths.get(Config.getProperty("ioWaitFileStats","secret/")).toFile();
 
     @Test
+    @Disabled
     public void test_ioWait() throws Exception {
         IoWaitStatVisitor v = new IoWaitStatVisitor(new Day("7/30/2019"));
 

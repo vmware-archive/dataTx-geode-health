@@ -7,9 +7,7 @@ import lombok.Setter;
 import org.apache.commons.dbcp2.*;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
-import org.hibernate.dialect.Dialect;
-import org.hibernate.dialect.H2Dialect;
-import org.hibernate.dialect.PostgreSQL9Dialect;
+import org.hibernate.dialect.*;
 import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl;
 import org.hibernate.jpa.boot.internal.PersistenceUnitInfoDescriptor;
 
@@ -20,6 +18,10 @@ import javax.sql.DataSource;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Creates a JPA Entity Manager
+ * @author Gregory Green
+ */
 @Builder
 @Setter
 public class JpaEntityManagerFactory
@@ -31,10 +33,9 @@ public class JpaEntityManagerFactory
 
     private  String jdbcDriverClassName;
 
-    @NonNull
+
     private  String jdbcUsername;
 
-    @NonNull
     private  String jdbcPassword;
 
     @NonNull
@@ -163,6 +164,10 @@ public class JpaEntityManagerFactory
                 case H2:
                     this.dialectClass = H2Dialect.class;
                     this.jdbcDriverClassName = "org.h2.Driver";
+                    break;
+                case MySQL:
+                    this.dialectClass = MySQL5Dialect.class;
+                    this.jdbcDriverClassName = "com.mysql.cj.jdbc.Driver";
                     break;
                 default:
                     throw new IllegalArgumentException("statDbType not support:"+statDbType);

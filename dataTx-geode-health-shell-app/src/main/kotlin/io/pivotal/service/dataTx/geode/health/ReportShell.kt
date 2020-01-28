@@ -185,7 +185,10 @@ class ReportShell
     @ShellMethod("Saves stats to database")
     fun dbSync(statsFileOrDirPath: String,
                jdbcDbType: StatDbType,
-               jdbcUrl: String, jdbcUsername: String,
+               jdbcUrl: String,
+               @ShellOption(defaultValue = "")
+               jdbcUsername: String,
+               @ShellOption(defaultValue = "")
                jdbcPasword: String,
                dayYYYYMMDDFilter: String,
                statTypeName : String,
