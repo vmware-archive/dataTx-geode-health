@@ -107,7 +107,7 @@ public class JpaEntityManagerFactory
         Properties properties = new Properties();
         properties.put("hibernate.dialect", dialectClass.getName());
         properties.put("hibernate.id.new_generator_mappings", false);
-        properties.put("hibernate.hbm2ddl.auto","create");
+        properties.put("hibernate.hbm2ddl.auto","update");
         properties.put("hibernate.temp.use_jdbc_metadata_defaults","false");
         properties.put("hbm2ddl.auto","update");
         properties.put("hibernate.show_sql","true");
