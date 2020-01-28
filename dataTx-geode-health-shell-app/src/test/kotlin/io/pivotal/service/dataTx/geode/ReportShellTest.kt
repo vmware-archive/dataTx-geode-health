@@ -6,6 +6,8 @@ import nyla.solutions.core.io.IO
 import org.junit.Test
 import org.junit.Assert.*
 import java.nio.file.Paths
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class ReportShellTest
 {
@@ -39,17 +41,24 @@ class ReportShellTest
     fun test_stats_saved_database()
     {
         var shell : ReportShell = ReportShell();
-        var statsFileOrDirPath = "";
-        var jdbcUrl ="";
-        var jdbcUsername ="";
+        var statsFileOrDirPath = "src/test/resources/stats/datanode_MacBook-Pro-5-18-01.gfs";
+        var jdbcUrl ="jdbc:h2:~/test";
+        var jdbcUsername ="sa";
         var jdbcPasword ="";
-        var jdbcDbType = StatDbType.PostgresDB;
+        var jdbcDbType = StatDbType.H2;
+
 
         shell.dbSync(statsFileOrDirPath,
                 jdbcDbType,
                 jdbcUrl,
                 jdbcUsername,
-                jdbcPasword)
+                jdbcPasword,
+                LocalDate.now().format(DateTimeFormatter.ofPattern("uuuu-MM-dd"))
+                ,""
+                ,"",
+                batchSize = 3);
+
+
     }//-------------------------------------------
     @Test
     fun test_report_with_default_html_template()

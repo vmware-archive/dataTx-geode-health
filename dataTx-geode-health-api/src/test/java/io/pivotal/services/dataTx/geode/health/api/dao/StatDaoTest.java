@@ -16,6 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 
@@ -31,7 +32,48 @@ public class StatDaoTest
 {
     private FakeValuesService fakerService = new FakeValuesService(
             Locale.ENGLISH,new RandomService());
+    private  Faker faker = new Faker(new Random());
+    @Test
+    public void verify_batch_can_write_to_databage()
+    {
+        String jdbcUrl = "jdbc:h2:~/test";
+        String jdbcUsername = "sa";
+        String jdbcPassword = "";
 
+        EntityManager em = getJpaEntityManagerFactory(
+                jdbcUrl,
+                jdbcUsername,
+                jdbcPassword,
+                StatDbType.H2)
+                .getEntityManager();
+
+        StatDao dao = StatDao.builder()
+                .entityManager(em)
+                .build();
+
+        StatEntity.StatEntityBuilder builder =
+                StatEntity.builder();
+
+        int size = 23;
+        ArrayList<StatEntity> entities = new ArrayList<>(size);
+
+        StatEntity statEntity = null;
+        for(int i=0;i<size;i++)
+        {
+            builder.statName(faker.name().name())
+                    .statTimestamp(LocalDateTime.now())
+                    .machine(faker.company().name())
+                    .statValue(faker.number().randomDouble(100,0,100))
+                    .filterTypeName(faker.name().name());
+
+            statEntity = builder.build();
+            entities.add(statEntity);
+        }
+
+        dao.saveAll(entities);
+
+
+    }//-------------------------------------------
     @Test
     public void verify_dao_can_write_to_databage()
     {
@@ -71,12 +113,12 @@ public class StatDaoTest
                                 .findStatById(
                                         actual.getId()).get();
 
-        assertEquals(expected,readActual);
+        assertEquals(actual,readActual);
 
-        dao.deleteStat(expected);
+        dao.deleteStat(actual);
 
-        expected = dao.findStatById(expected.getId()).orElse(null);
-        assertNull(expected);
+        actual = dao.findStatById(actual.getId()).orElse(null);
+        assertNull(actual);
 
     }
 
@@ -84,7 +126,7 @@ public class StatDaoTest
     @EnabledIfSystemProperty(named = "testMode", matches = "INT")
     public void integration_test()
     {
-        Faker faker = new Faker(new Random());
+
         String jdbcUrl = Config.getProperty("jdbcUrl");
         String jdbcUsername = Config.getProperty("jdbcUsername");
         String jdbcPassword = Config.getProperty("jdbcPassword");
@@ -134,6 +176,7 @@ public class StatDaoTest
                 .jdbcUsername(jdbcUsername)
                 .jdbcPassword(jdbcPassword)
                 .jdbcUrl(jdbcUrl)
+                .batchSize(3)
                 .entityClasses(
                 new Class[]{StatEntity.class});
         return builder.build();

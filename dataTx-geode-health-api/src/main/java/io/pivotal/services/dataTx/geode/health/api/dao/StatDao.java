@@ -8,10 +8,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 
 /**
- * @author Gregory Green
+ * Save statistics to database
+ * @author Gregory Green, Nyla Green
  */
 @Builder
 @Setter
@@ -56,6 +59,22 @@ public class StatDao implements Closeable
         this.entityManager.flush();
         transaction.commit();
     }
+
+
+
+    public void saveAll(Collection<StatEntity> entities)
+    {
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        for (StatEntity entity: entities)
+        {
+           entityManager.persist(entity);
+        }
+
+        entityManager.flush();
+        transaction.commit();
+    }//-------------------------------------------
 
     @Override
     public void close()

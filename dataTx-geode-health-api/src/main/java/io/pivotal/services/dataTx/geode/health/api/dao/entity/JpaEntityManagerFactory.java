@@ -4,13 +4,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import org.apache.commons.dbcp2.*;
+import org.apache.commons.pool2.ObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.H2Dialect;
 import org.hibernate.dialect.PostgreSQL9Dialect;
-import org.hibernate.dialect.PostgresPlusDialect;
 import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl;
 import org.hibernate.jpa.boot.internal.PersistenceUnitInfoDescriptor;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -23,27 +24,6 @@ import java.util.stream.Collectors;
 @Setter
 public class JpaEntityManagerFactory
 {
-    private JpaEntityManagerFactory()
-    {
-
-    }
-
-    private JpaEntityManagerFactory(@NonNull String jdbcUrl,
-                                    String jdbcDriverClassName,
-                                    @NonNull String jdbcUsername,
-                                    @NonNull String jdbcPassword,
-                                    @NonNull Class[] entityClasses,
-                                    Class<? extends Dialect> dialectClass,
-                                    @NonNull StatDbType statDbType)
-    {
-        this.jdbcUrl = jdbcUrl;
-        this.jdbcDriverClassName = jdbcDriverClassName;
-        this.jdbcUsername = jdbcUsername;
-        this.jdbcPassword = jdbcPassword;
-        this.entityClasses = entityClasses;
-        this.dialectClass = dialectClass;
-        this.statDbType = statDbType;
-    }
 
     //= "jdbc:mysql://databaseurl"
     @NonNull
@@ -66,12 +46,49 @@ public class JpaEntityManagerFactory
     @NonNull
     private StatDbType statDbType;
 
+    @NonNull
+    private Integer batchSize;
+
+    private JpaEntityManagerFactory()
+    {
+
+    }
+
+    private JpaEntityManagerFactory(@NonNull String jdbcUrl,
+                                    String jdbcDriverClassName,
+                                    @NonNull String jdbcUsername,
+                                    @NonNull String jdbcPassword,
+                                    @NonNull Class[] entityClasses,
+                                    Class<? extends Dialect> dialectClass,
+                                    @NonNull StatDbType statDbType,
+                                    @NonNull Integer batchSize)
+    {
+        this.jdbcUrl = jdbcUrl;
+        this.jdbcDriverClassName = jdbcDriverClassName;
+        this.jdbcUsername = jdbcUsername;
+        this.jdbcPassword = jdbcPassword;
+        this.entityClasses = entityClasses;
+        this.dialectClass = dialectClass;
+        this.statDbType = statDbType;
+        this.batchSize = batchSize;
+    }
 
     public EntityManager getEntityManager() {
+
         return getEntityManagerFactory().createEntityManager();
     }
 
-    protected EntityManagerFactory getEntityManagerFactory() {
+    protected EntityManagerFactory getEntityManagerFactory()  {
+
+        try
+        {
+            Class.forName(this.jdbcDriverClassName);
+        }
+        catch(ClassNotFoundException e)
+        {
+            throw new IllegalArgumentException("ClassNotFoundException:"+this.jdbcDriverClassName);
+        }
+
         PersistenceUnitInfo persistenceUnitInfo = getPersistenceUnitInfo(
                 getClass().getSimpleName());
         Map<String, Object> configuration = new HashMap<>();
@@ -95,7 +112,7 @@ public class JpaEntityManagerFactory
         properties.put("hbm2ddl.auto","update");
         properties.put("hibernate.show_sql","true");
         properties.put("hibernate.format_sql","true");
-        //properties.put("javax.persistence.schema-generation.database.action","create");
+        properties.put("hibernate.jdbc.batch_size", batchSize);
 
         properties.put("hibernate.connection.datasource", getDataSource());
 
@@ -107,13 +124,25 @@ public class JpaEntityManagerFactory
     }
 
     protected DataSource getDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-        dataSource.setDriverClassName(this.jdbcDriverClassName);
-        dataSource.setUsername(this.jdbcUsername);
-        dataSource.setPassword(this.jdbcPassword);
-        dataSource.setUrl(this.jdbcUrl);
-        return dataSource;
+        //GenericObjectPool connectionPool = new GenericObjectPool(null);
+        ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(jdbcUrl,
+                jdbcUsername,
+                jdbcPassword);
+        PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory
+                (connectionFactory,
+                null);
+
+        ObjectPool<PoolableConnection> connectionPool =
+                                 new GenericObjectPool<>(poolableConnectionFactory);
+
+        // Set the factory's pool property to the owning pool
+         poolableConnectionFactory.setPool(connectionPool);
+         PoolingDataSource<PoolableConnection> dataSource =
+               new PoolingDataSource<>(connectionPool);
+
+         return dataSource;
+
 
     }
 
@@ -148,7 +177,8 @@ public class JpaEntityManagerFactory
                     this.jdbcPassword,
                     this.entityClasses,
                     this.dialectClass,
-                    this.statDbType);
+                    this.statDbType,
+                    this.batchSize);
         }
     }//-------------------------------------------
 }

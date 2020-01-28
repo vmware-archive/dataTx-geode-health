@@ -18,6 +18,9 @@ import org.springframework.shell.standard.ShellMethod
 import org.springframework.shell.standard.ShellOption
 import java.io.File
 import java.nio.file.Paths
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 /**
  * Shell wrapping for assessment commands
@@ -180,34 +183,65 @@ class ReportShell
 
     }//-------------------------------------------
     @ShellMethod("Saves stats to database")
-    fun dbSync(statsFileOrDirPath: String, jdbcDbType: StatDbType,
-               jdbcUrl: String, jdbcUsername: String, jdbcPasword: String) {
+    fun dbSync(statsFileOrDirPath: String,
+               jdbcDbType: StatDbType,
+               jdbcUrl: String, jdbcUsername: String,
+               jdbcPasword: String,
+               dayYYYYMMDDFilter: String,
+               statTypeName : String,
+               statName : String,
+               batchSize : Int) {
 
 
-        var factory = JpaEntityManagerFactory.builder().statDbType(jdbcDbType)
+        var factory = JpaEntityManagerFactory
+                .builder()
+                .statDbType(jdbcDbType)
                 .jdbcUrl(jdbcUrl)
                 .jdbcUsername(jdbcUsername)
                 .jdbcPassword(jdbcPasword)
+                .batchSize(batchSize)
                 .build();
 
         var dao = StatDao(factory.entityManager);
+        var datePattern = "uuuu-M-d";
 
         var file = Paths.get(statsFileOrDirPath).toFile();
-        var visitor : StatsToDatabaseVisitor = StatsToDatabaseVisitor(dao);
-        dao.use {
+        try {
+            var visitor : StatsToDatabaseVisitor = StatsToDatabaseVisitor
+                    .builder()
+                    .batchSize(batchSize)
+                    .dao(dao)
+                    .dayFilter(
+                            LocalDate.parse(
+                                    dayYYYYMMDDFilter,
+                                    DateTimeFormatter
+                                            .ofPattern(datePattern)))
+                    .statTypeName(statTypeName)
+                    .statName(statName)
+                    .build();
 
-            if (file.isDirectory()) { //Process for all files
-                val statsFiles: Set<File> = IO.listFileRecursive(file, "*.gfs")
+            dao.use {
 
-                for (statFile in statsFiles) {
-                    val reader = GfStatsReader(statFile.absolutePath)
+                if (file.isDirectory()) { //Process for all files
+                    val statsFiles: Set<File> = IO.listFileRecursive(file, "*.gfs")
+
+                    for (statFile in statsFiles) {
+                        val reader = GfStatsReader(statFile.absolutePath)
+                        reader.accept(visitor)
+                    }
+                } else {
+                    val reader = GfStatsReader(file.getAbsolutePath())
                     reader.accept(visitor)
                 }
-            } else {
-                val reader = GfStatsReader(file.getAbsolutePath())
-                reader.accept(visitor)
             }
         }
+        catch(e : DateTimeParseException)
+        {
+            throw java.lang.IllegalArgumentException(
+                    "Date Filter:${dayYYYYMMDDFilter} does not match expected date format: ${datePattern} ");
+        }
+
+
     }//-------------------------------------------
 
 }
