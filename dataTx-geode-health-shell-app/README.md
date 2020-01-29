@@ -112,8 +112,7 @@ versus using the report-html command.
 
 ![CPU Usage Stats](docs/grafana-cpu.png)
 
-Graphing tools such as Grafana.
-
+Graphing tools such as [Grafana](https://grafana.com/).
 The following is an example Grafana dashboard definition for LinuxSystemStats stats.
 
 
